@@ -1,6 +1,8 @@
 # Launch Pad 1
 3D-printed model rocket launch pad based around a 2020 aluminium extrusion.
 
+![Launch Pad 1](./docs/img/lp-1.jpg)
+
 ## Build manual
 
 ### Bill of materials
