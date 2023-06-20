@@ -17,4 +17,4 @@ leg_hold_h = 3 / 4 * leg_d;
 leg_hinge_clearance = leg_d / 4 + fit;
 
 // Increase leg hinge mount's overall strength by rotating it a little.
-layer_adhesion_rot = 7.5;
+layer_adhesion_rot = 5;

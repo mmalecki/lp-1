@@ -2,7 +2,7 @@ include <parameters.scad>
 use <catchnhole/catchnhole.scad>
 use <leg-hinge.scad>
 
-module stand_center_leg_hinge() {
+module stand_center_leg_hinge () {
   d = leg_d + 2 * t;
   leg_d_fit = leg_d + tight_fit;
   // Ugly hack depending on later difference against the extrusion:
@@ -30,12 +30,21 @@ module stand_center_leg_hinge() {
   }
 }
 
-module stand_center_to_leg_hinge() {
+module stand_center_to_leg_hinge () {
   leg_d_fit = leg_d + tight_fit;
   translate([ sqrt(2) * leg_d_fit / 2 + t / 2, 0, 0 ]) children();
 }
 
-module stand_center(legs = 3, t = 3) {
+module stand_center_to_legs (legs = 3) {
+  step = 360 / legs;
+  for (mount = [1:legs]) {
+    rotate([ 0, 0, step * mount ]) {
+      stand_center_to_leg_hinge() children();
+    }
+  }
+}
+
+module stand_center (legs = 3, t = 3) {
   leg_d_fit = leg_d + tight_fit;
   // Circumscribed circle around the extrusion:
   cd = sqrt(2) * leg_d_fit;
@@ -48,11 +57,7 @@ module stand_center(legs = 3, t = 3) {
   difference() {
     union() {
       translate([ 0, 0, -h / 2 ]) cylinder(d = d, h = h);
-      for (mount = [1:legs]) {
-        rotate([ 0, 0, step * mount ]) {
-          stand_center_to_leg_hinge() rotate([ 0, 90 ]) stand_center_leg_hinge();
-        }
-      }
+      stand_center_to_legs() rotate([ 0, 90 ]) stand_center_leg_hinge();
     }
 
     cube([ leg_d_fit, leg_d_fit, h ], center = true);
@@ -61,4 +66,4 @@ module stand_center(legs = 3, t = 3) {
   }
 }
 
-stanenter();
+stand_center();
